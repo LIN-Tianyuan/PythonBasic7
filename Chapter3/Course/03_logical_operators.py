@@ -16,6 +16,13 @@ else:
     print("Âge incorrect.")
 """
 
-
+"""
+score_python = int(input("Veuillez entrer votre score Python: "))
+score_c = int(input("Veuillez entrer votre score C: "))
+if score_python > 60 or score_c > 60:
+    print("Réussir l'examen.")
+else:
+    print("Continuez à faire du bon travail.")
+"""
 
 
