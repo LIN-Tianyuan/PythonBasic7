@@ -1,2 +1,2 @@
-for number in (1, 11, 1) and range(7, 77, 7):
+for number in range(1, 11, 1):
     print(number)
