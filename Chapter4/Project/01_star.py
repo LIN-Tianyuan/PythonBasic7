@@ -7,5 +7,9 @@ for number in range(9):
     print('*', end="")
 """
 
-for number in range(9):
-    print('*********')
+# Row
+for i in range(1, 10):
+    # Column
+    for j in range(i):
+        print('*', end="")
+    print()
