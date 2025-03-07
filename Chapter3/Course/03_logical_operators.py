@@ -25,4 +25,9 @@ else:
     print("Continuez à faire du bon travail.")
 """
 
-
+# print(2 < 3 and 5 > 10)
+print(2 < 3) # True
+print(5 > 10) # False
+print(2 < 3 and 5 > 10) # False
+print(2 < 3 or 5 > 10)  # True
+print(not(1 == 1))
