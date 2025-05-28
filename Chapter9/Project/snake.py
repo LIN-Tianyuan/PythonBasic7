@@ -13,6 +13,8 @@ window_y = 480
 game = pygame.display.set_mode((window_x, window_y))
 # 设置标题
 pygame.display.set_caption("Snake")
+# FPS（每秒帧数 Frames Per Second）控制器，创建一个时钟对象
+fps = pygame.time.Clock()
 
 # 定义蛇的位置
 snake_position = [100, 50]
@@ -76,11 +78,24 @@ while True:
     if direction == 'DOWN':
         snake_position[1] = snake_position[1] + 10
 
+    # 往蛇头添加新的块
+    snake_body.insert(0, list(snake_position))
+    # 把蛇尾（最后一块去掉）
+    snake_body.pop(4)
+
+    # 把背景色涂黑：以免上一刻循环画的蛇残留
+    game.fill((0, 0, 0))
     # 画蛇
     for i in range(4):
         position = snake_body[i]
         pygame.draw.rect(game, (0, 255, 0), pygame.Rect(position[0], position[1], 10, 10))
+
     # 画水果
     pygame.draw.rect(game, (255, 255, 255), pygame.Rect(fruit_position[0], fruit_position[1], 10, 10))
+
+    if snake_body[0] == fruit_position:
+        snake_body.insert(0, list(snake_position))
     # 屏幕刷新
     pygame.display.flip()
+    # 控制时钟频率（刷新频率）
+    fps.tick(30)
