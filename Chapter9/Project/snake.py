@@ -1,6 +1,7 @@
 import pygame
 import sys
 import random
+import time
 
 # 初始化游戏
 pygame.init()
@@ -35,6 +36,18 @@ fruit_position = [random.randint(0, 72) * 10, random.randint(0, 48) * 10]
 # 当前蛇的方向
 direction = 'RIGHT'
 change_to = direction
+
+def game_over():
+    f = pygame.font.SysFont('Arial', 50)
+    text = f.render('Game over', True, (255, 0, 0))
+    text_rect = text.get_rect()
+    text_rect.center = (window_x // 2, window_y // 2)
+    game.blit(text, text_rect)
+    pygame.display.flip()
+    # 时间暂停2秒再运行
+    time.sleep(2)
+    pygame.quit()
+    sys.exit()
 
 while True:
     # 获取所有的事件
@@ -101,8 +114,9 @@ while True:
         pygame.draw.rect(game, (0, 255, 0), pygame.Rect(position[0], position[1], 10, 10))
 
     # 碰到墙壁
-    if snake_body[0] == [0, 480]:
-        print("Game over")
+    if snake_position[0] == 0:
+        game_over()
+
 
     # 画水果
     pygame.draw.rect(game, (255, 255, 255), pygame.Rect(fruit_position[0], fruit_position[1], 10, 10))
