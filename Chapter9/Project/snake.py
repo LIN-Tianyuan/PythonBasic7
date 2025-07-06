@@ -37,6 +37,15 @@ fruit_position = [random.randint(0, 72) * 10, random.randint(0, 48) * 10]
 direction = 'RIGHT'
 change_to = direction
 
+# 初始分数
+game_score = 0
+
+def show_score(score):
+    score_f = pygame.font.SysFont('times new roman', 20)
+    score_text = score_f.render('Score: ' + str(score), True, (255, 255, 255))
+    score_rect = score_text.get_rect()
+    game.blit(score_text, score_rect)
+
 def game_over():
     f = pygame.font.SysFont('Arial', 50)
     text = f.render('Game over', True, (255, 0, 0))
@@ -96,15 +105,15 @@ while True:
 
     # 往蛇头添加新的块
     snake_body.insert(0, list(snake_position))
-    # 把蛇尾（最后一块去掉）
-    snake_body.pop(len(snake_body) - 1)
 
     # 判断是否吃到水果
     if snake_body[0] == fruit_position:
-        # 吃到水果的时候，要让蛇加一块（变长）
-        snake_body.insert(0, list(snake_position))
+        # 吃到水果后，分数 +1
+        game_score = game_score + 1
         # 让水果消失，然后再重置水果的位置
         fruit_position = [random.randint(0, 72) * 10, random.randint(0, 48) * 10]
+    else:
+        snake_body.pop(len(snake_body) - 1)
 
     # 把背景色涂黑：以免上一刻循环画的蛇残留
     game.fill((0, 0, 0))
@@ -113,14 +122,21 @@ while True:
         position = snake_body[i]
         pygame.draw.rect(game, (0, 255, 0), pygame.Rect(position[0], position[1], 10, 10))
 
-    # 碰到墙壁
-    if snake_position[0] == 0:
-        game_over()
-
-
     # 画水果
     pygame.draw.rect(game, (255, 255, 255), pygame.Rect(fruit_position[0], fruit_position[1], 10, 10))
 
+    # 碰到墙壁
+    if snake_position[0] < 0 or snake_position[0] > window_x - 10:
+        game_over()
+    if snake_position[1] < 0 or snake_position[1] > window_y - 10:
+        game_over()
+
+    # 判断蛇头是否碰到蛇身
+    for i in range(1, len(snake_body)):
+        if snake_position == snake_body[i]:
+            game_over()
+
+    show_score(game_score)
     # 屏幕刷新
     pygame.display.flip()
     # 控制时钟频率（刷新频率）
